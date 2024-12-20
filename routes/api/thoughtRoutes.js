@@ -17,10 +17,4 @@ router
   .put(updateThought)
   .delete(deleteThought);
 
-// /api/thoughts/:thoughtId/tags
-router.route("/:applicationId/tags").post(addTag);
-
-// /api/applications/:applicationId/tags/:tagId
-router.route("/:applicationId/tags/:tagId").delete(removeTag);
-
 module.exports = router;

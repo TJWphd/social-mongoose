@@ -1,43 +1,33 @@
-const connection = require('../config/connection');
-const { User, Application } = require('../models');
-const { getRandomName, getRandomApplications } = require('./data');
+const connection = require("../config/connection");
+const { User, Thought } = require("../models");
 
-connection.on('error', (err) => err);
+connection.on("error", (err) => err);
 
-connection.once('open', async () => {
-  console.log('connected');
+connection.once("open", async () => {
+  console.log("connected");
   // Delete the collections if they exist
-  let applicationCheck = await connection.db.listCollections({ name: 'applications' }).toArray();
-  if (applicationCheck.length) {
-    await connection.dropCollection('applications');
+  let thoughtCheck = await connection.db
+    .listCollections({ name: "thoughts" })
+    .toArray();
+  if (thoughtsCheck.length) {
+    await connection.dropCollection("thoughts");
   }
-  
-  let userCheck = await connection.db.listCollections({ name: 'users' }).toArray();
+
+  let userCheck = await connection.db
+    .listCollections({ name: "users" })
+    .toArray();
   if (userCheck.length) {
-    await connection.dropCollection('users');
+    await connection.dropCollection("users");
   }
 
   const users = [];
-  const applications = getRandomApplications(10);
-
-  for (let i = 0; i < 20; i++) {
-    const fullName = getRandomName();
-    const first = fullName.split(' ')[0];
-    const last = fullName.split(' ')[1];
-
-    users.push({
-      first,
-      last,
-      age: Math.floor(Math.random() * (99 - 18 + 1) + 18),
-    });
-  }
 
   await User.insertMany(users);
-  await Application.insertMany(applications);
+  await Thought.insertMany(thoughts);
 
-  // loop through the saved applications, for each application we need to generate a application response and insert the application responses
+  // loop through the saved thoughts, for each thought we need to generate a thought response and insert the thought responses
   console.table(users);
-  console.table(applications);
-  console.info('Seeding complete! 🌱');
+  console.table(thoughts);
+  console.info("Seeding complete! 🌱");
   process.exit(0);
 });
