@@ -1,12 +1,12 @@
 {
-  "name": "26-Stu_Mongoose-CRUD",
+  "name": "Social Mongoose",
   "version": "1.0.0",
-  "description": "Reverse engineer developer activity for CRUD methods in Mongoose",
-  "main": "index.js",
+  "description": "Social Network for thought-sharing, powered by Mongoose",
+  "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index",
+    "start": "node server",
+    "dev": "nodemon server",
     "seed": "node utils/seed"
   },
   "dependencies": {

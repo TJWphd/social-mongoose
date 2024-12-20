@@ -1,4 +1,4 @@
-const { Application, User } = require('../models');
+const { Application, User } = require("../models");
 
 module.exports = {
   async getApplications(req, res) {
@@ -11,10 +11,12 @@ module.exports = {
   },
   async getSingleApplication(req, res) {
     try {
-      const application = await Application.findOne({ _id: req.params.applicationId });
+      const application = await Application.findOne({
+        _id: req.params.applicationId,
+      });
 
       if (!application) {
-        return res.status(404).json({ message: 'No application with that ID' });
+        return res.status(404).json({ message: "No application with that ID" });
       }
 
       res.json(application);
@@ -34,11 +36,11 @@ module.exports = {
 
       if (!user) {
         return res.status(404).json({
-          message: 'Application created, but found no user with that ID',
-        })
+          message: "Application created, but found no user with that ID",
+        });
       }
 
-      res.json('Created the application 🎉');
+      res.json("Created the application 🎉");
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
@@ -54,7 +56,9 @@ module.exports = {
       );
 
       if (!application) {
-        return res.status(404).json({ message: 'No application with this id!' });
+        return res
+          .status(404)
+          .json({ message: "No application with this id!" });
       }
 
       res.json(application);
@@ -66,10 +70,14 @@ module.exports = {
   // TODO: Add comments to the functionality of the deleteApplication method
   async deleteApplication(req, res) {
     try {
-      const application = await Application.findOneAndRemove({ _id: req.params.applicationId });
+      const application = await Application.findOneAndRemove({
+        _id: req.params.applicationId,
+      });
 
       if (!application) {
-        return res.status(404).json({ message: 'No application with this id!' });
+        return res
+          .status(404)
+          .json({ message: "No application with this id!" });
       }
 
       const user = await User.findOneAndUpdate(
@@ -80,26 +88,28 @@ module.exports = {
 
       if (!user) {
         return res.status(404).json({
-          message: 'Application created but no user with this id!',
+          message: "Application created but no user with this id!",
         });
       }
 
-      res.json({ message: 'Application successfully deleted!' });
+      res.json({ message: "Application successfully deleted!" });
     } catch (err) {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the addTag method
-  async addTag(req, res) {
+  // TODO: Add comments to the functionality of the addThought method
+  async addThought(req, res) {
     try {
       const application = await Application.findOneAndUpdate(
         { _id: req.params.applicationId },
-        { $addToSet: { tags: req.body } },
+        { $addToSet: { thoughts: req.body } },
         { runValidators: true, new: true }
       );
 
       if (!application) {
-        return res.status(404).json({ message: 'No application with this id!' });
+        return res
+          .status(404)
+          .json({ message: "No application with this id!" });
       }
 
       res.json(application);
@@ -107,17 +117,19 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // TODO: Add comments to the functionality of the addTag method
-  async removeTag(req, res) {
+  // TODO: Add comments to the functionality of the addThought method
+  async removeThought(req, res) {
     try {
       const application = await Application.findOneAndUpdate(
         { _id: req.params.applicationId },
-        { $pull: { tags: { tagId: req.params.tagId } } },
+        { $pull: { thoughts: { thoughtId: req.params.thoughtId } } },
         { runValidators: true, new: true }
       );
 
       if (!application) {
-        return res.status(404).json({ message: 'No application with this id!' });
+        return res
+          .status(404)
+          .json({ message: "No application with this id!" });
       }
 
       res.json(application);
